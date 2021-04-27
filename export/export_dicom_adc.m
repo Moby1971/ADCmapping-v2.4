@@ -7,9 +7,9 @@ delete([folder_name,filesep,'*']);
 
 
 % Flip and rotate in correct orientation
-adcmap = flip(permute(adcmap,[1,3,2]),3);
-m0map = flip(permute(m0map,[1,3,2]),3);
-r2map = flip(permute(r2map,[1,3,2]),3);
+%adcmap = flip(permute(adcmap,[1,3,2]),3);
+%m0map = flip(permute(m0map,[1,3,2]),3);
+%r2map = flip(permute(r2map,[1,3,2]),3);
 
 % Rotate the images if phase orienation == 1
 number_of_images = size(adcmap,1);
