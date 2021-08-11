@@ -33,7 +33,8 @@ for idx = 1:number_of_images
     
     % determine a convenient scale to display M0 maps (same as in the app)
     m0scale = round(2*mean(nonzeros(squeeze(m0map(idx,:,:)))));
-    if isnan(m0scale) m0scale = 100; end
+    m0scale(isnan(m0scale)) = 100;
+    m0scale(m0scale<1) = 1;
     
     % automatic grayscale mapping is used for the gif export
     % the m0map therefore needs to be mapped onto the range of [0 255]

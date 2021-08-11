@@ -1,18 +1,22 @@
-function export_dicom_adc(output_directory,dcm_info,adcmap,m0map,r2map,tag)
+function export_dicom_adc(directory,dcm_info,adcmap,m0map,r2map,tag)
 
 
-folder_name = [output_directory,[filesep,'ADCmap-DICOM-',tag]];
-if (~exist(folder_name, 'dir')); mkdir(folder_name); end
-delete([folder_name,filesep,'*']);
+% Create new directory 
+ready = false;
+cnt = 1;
+while ~ready
+    output_directory = strcat(directory,filesep,num2str(cnt));
+    if (~exist(output_directory, 'dir'))
+        mkdir(fullfile(directory, num2str(cnt)));
+        ready = true;
+    end
+    cnt = cnt + 1;
+end
 
 
-% Flip and rotate in correct orientation
-%adcmap = flip(permute(adcmap,[1,3,2]),3);
-%m0map = flip(permute(m0map,[1,3,2]),3);
-%r2map = flip(permute(r2map,[1,3,2]),3);
-
-% Rotate the images if phase orienation == 1
+% Number of images
 number_of_images = size(adcmap,1);
+
 
 % Generate new dicom headers
 for i = 1:number_of_images
@@ -29,14 +33,14 @@ end
 
 
 
-% Export the T2 map Dicoms
+% Export the ADC map Dicoms
 for i=1:number_of_images
     dcm_header(i).ProtocolName = 'ADC-map';
     dcm_header(i).SequenceName = 'ADC-map';
     dcm_header(i).EchoTime = 1;
     fn = ['0000',num2str(i)];
     fn = fn(size(fn,2)-4:size(fn,2));
-    fname = [output_directory,filesep,'ADCmap-DICOM-',tag,filesep,'ADCmap_',fn,'.dcm'];
+    fname = [output_directory,filesep,'ADC',fn,'.dcm'];
     image = rot90(squeeze(cast(round(1000*adcmap(i,:,:)),'uint16')));
     dicomwrite(image, fname, dcm_header(i));
 end
@@ -51,7 +55,7 @@ for i=1:number_of_images
     
     fn = ['0000',num2str(i)];
     fn = fn(size(fn,2)-4:size(fn,2));
-    fname = [output_directory,filesep,'ADCmap-DICOM-',tag,filesep,'M0map_',fn,'.dcm'];
+    fname = [output_directory,filesep,'M0',fn,'.dcm'];
     image = rot90(squeeze(cast(round(m0map(i,:,:)),'uint16')));
     dicomwrite(image, fname, dcm_header(i));
 end
@@ -66,7 +70,7 @@ for i=1:number_of_images
     
     fn = ['0000',num2str(i)];
     fn = fn(size(fn,2)-4:size(fn,2));
-    fname = [output_directory,filesep,'ADCmap-DICOM-',tag,filesep,'R2map_',fn,'.dcm'];
+    fname = [output_directory,filesep,'R2',fn,'.dcm'];
     image = rot90(squeeze(cast(round(100*r2map(i,:,:)),'uint16')));
     dicomwrite(image, fname, dcm_header(i));
 end
