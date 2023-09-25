@@ -1,6 +1,7 @@
 function images_out = register_images(app,images_in)
 
 
+
 [ne,ns,~,~] = size(images_in);
 
 [optimizer, metric] = imregconfig('multimodal');
