@@ -157,6 +157,9 @@ catch ME
 
 end
 
+% Renormalize
+imagesIn = 32767*imagesIn/max(imagesIn(:));
+
 app.images = imagesIn;
 
 end
