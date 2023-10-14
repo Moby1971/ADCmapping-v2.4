@@ -1,13 +1,18 @@
-function export_dicom_adc(directory,dcmInfo,adcMap,m0Map,r2Map)
+function exportDCMadc(app, folder)
+
+dcmInfo = app.dcmInfo;
+adcMap = app.adcmap;
+m0Map = app.m0map;
+r2Map = app.r2map;
 
 
 % Create new directory
 ready = false;
 cnt = 1;
 while ~ready
-    outputDirectory = strcat(directory,filesep,num2str(cnt));
-    if ~exist(outputDirectory, 'dir')
-        mkdir(outputDirectory);
+    outputFolder = strcat(folder,filesep,num2str(cnt));
+    if ~exist(outputFolder, 'dir')
+        mkdir(outputFolder);
         ready = true;
     end
     cnt = cnt + 1;
@@ -42,7 +47,7 @@ for i=1:numberOfImages
 
     fn = strcat('0000',num2str(i));
     fn = fn(size(fn,2)-4:size(fn,2));
-    fname = strcat(outputDirectory,filesep,'ADC',fn,'.dcm');
+    fname = strcat(outputFolder,filesep,'ADC',fn,'.dcm');
     image = rot90(squeeze(cast(round(1000*adcMap(i,:,:)),'uint16')));
     dicomwrite(image, fname, dcmHeader(i));
 
@@ -59,7 +64,7 @@ for i=1:numberOfImages
 
     fn = strcat('0000',num2str(i));
     fn = fn(size(fn,2)-4:size(fn,2));
-    fname = strcat(outputDirectory,filesep,'M0',fn,'.dcm');
+    fname = strcat(outputFolder,filesep,'M0',fn,'.dcm');
     image = rot90(squeeze(cast(round(m0Map(i,:,:)),'uint16')));
     dicomwrite(image, fname, dcmHeader(i));
 
@@ -76,7 +81,7 @@ for i=1:numberOfImages
 
     fn = strcat('0000',num2str(i));
     fn = fn(size(fn,2)-4:size(fn,2));
-    fname = strcat(outputDirectory,filesep,'R2',fn,'.dcm');
+    fname = strcat(outputFolder,filesep,'R2',fn,'.dcm');
     image = rot90(squeeze(cast(round(100*r2Map(i,:,:)),'uint16')));
     dicomwrite(image, fname, dcmHeader(i));
     
