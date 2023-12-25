@@ -5,12 +5,12 @@ function [m0map,ADCmap,r2map] = dotheADCfit(app,imagesIn,mask)
 % Performs the ADC map fitting for 1 slice
 %
 % Gustav Strijkers
-% 24 Sept 2023
+% 25 Dec 2023
 % -----------------------
 
 
 % Threshold and R-square
-threshold = app.ThresholdR.Value;
+threshold = app.Threshold.Value;
 rSquare = app.Rsquare.Value;
 
 
