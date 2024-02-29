@@ -1,6 +1,14 @@
-function exportGIFadc(app, gifExportpath)
+function exportGIFadc(app, gifExportBasePath)
 
+%------------------------------------------------------------
 % Exports ADCmaps, M0maps, and r^2 maps to animated gif
+%
+% Gustav Strijkers
+% Amsterdam UMC
+% g.j.strijkers@amsterdamumc.nl
+% Feb 2024
+%
+%------------------------------------------------------------
 
 ADCmap = app.adcmap;
 M0map = app.m0map;
@@ -13,9 +21,18 @@ r2cmap = app.r2cmap;
 aspectRatio = app.aspectRatio;
 rSquare = app.Rsquare.Value;
 
-if ~exist(gifExportpath, 'dir')
-    mkdir(gifExportpath); 
+% Create new directories
+ready = false;
+cnt = 1;
+while ~ready
+    gifExportPath = strcat(gifExportBasePath,filesep,app.tag,"ADC",filesep,num2str(cnt),filesep);
+    if ~exist(gifExportPath, 'dir')
+        mkdir(gifExportPath);
+        ready = true;
+    end
+    cnt = cnt + 1;
 end
+
 
 [numberOfImages,dimX,dimY] = size(ADCmap);
 
@@ -34,9 +51,9 @@ for idx = 1:numberOfImages
     image = rot90(uint8(round((255/ADCMapScale)*imresize(squeeze(ADCmap(idx,:,:)),[numRows numCols]))));
     
     if idx == 1
-        imwrite(image,ADCcmap,strcat(gifExportpath,filesep,'ADCmap-',tag,'.gif'),'DelayTime',delay_time,'LoopCount',inf);
+        imwrite(image,ADCcmap,strcat(gifExportPath,filesep,'ADCmap-',tag,'.gif'),'DelayTime',delay_time,'LoopCount',inf);
     else
-        imwrite(image,ADCcmap,strcat(gifExportpath,filesep,'ADCmap-',tag,'.gif'),'WriteMode','append','DelayTime',delay_time);
+        imwrite(image,ADCcmap,strcat(gifExportPath,filesep,'ADCmap-',tag,'.gif'),'WriteMode','append','DelayTime',delay_time);
     end
 end
         
@@ -55,9 +72,9 @@ for idx = 1:numberOfImages
     image = rot90(uint8(round((255/m0scale)*imresize(squeeze(M0map(idx,:,:)),[numRows numCols]))));
     
     if idx == 1
-        imwrite(image,m0cmap,strcat(gifExportpath,filesep,'M0map-',tag,'.gif'),'DelayTime',delay_time,'LoopCount',inf);
+        imwrite(image,m0cmap,strcat(gifExportPath,filesep,'M0map-',tag,'.gif'),'DelayTime',delay_time,'LoopCount',inf);
     else
-        imwrite(image,m0cmap,strcat(gifExportpath,filesep,'M0map-',tag,'.gif'),'WriteMode','append','DelayTime',delay_time);
+        imwrite(image,m0cmap,strcat(gifExportPath,filesep,'M0map-',tag,'.gif'),'WriteMode','append','DelayTime',delay_time);
     end
 end
          
@@ -78,9 +95,9 @@ for idx = 1:numberOfImages
     image = rot90(uint8(round((255/r2scale)*imresize(squeeze(100*R2map(idx,:,:)),[numRows numCols]))));
     
     if idx == 1
-        imwrite(image,r2cmap,strcat(gifExportpath,filesep,'R2map-',tag,'.gif'),'DelayTime',delay_time,'LoopCount',inf);
+        imwrite(image,r2cmap,strcat(gifExportPath,filesep,'R2map-',tag,'.gif'),'DelayTime',delay_time,'LoopCount',inf);
     else
-        imwrite(image,r2cmap,strcat(gifExportpath,filesep,'R2map-',tag,'.gif'),'WriteMode','append','DelayTime',delay_time);
+        imwrite(image,r2cmap,strcat(gifExportPath,filesep,'R2map-',tag,'.gif'),'WriteMode','append','DelayTime',delay_time);
     end
 end
 

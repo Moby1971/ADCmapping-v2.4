@@ -1,2 +1,4 @@
 
 .DS_Store
+functions/export/exportDCMadc.m
+functions/export/exportGIFadc.m
