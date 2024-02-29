@@ -2,3 +2,9 @@
 .DS_Store
 functions/export/exportDCMadc.m
 functions/export/exportGIFadc.m
+functions/fitting/dotheADCfit.m
+functions/export/exportDCMadc.m
+functions/export/exportGIFadc.m
+functions/fitting/dotheADCfit.m
+functions/import/Get_mrd_3D4.m
+functions/registration/registerImages.m
