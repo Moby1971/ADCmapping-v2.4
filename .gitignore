@@ -16,3 +16,4 @@ functions/export/niftii/dicm_hdr.m
 functions/export/niftii/dicm_img.m
 functions/export/niftii/dicm_save.m
 functions/export/niftii/nii_tool.m
+functions/segment/apply_threshold_adc.m
