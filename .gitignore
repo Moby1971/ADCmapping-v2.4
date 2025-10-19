@@ -18,3 +18,5 @@ functions/export/niftii/dicm_save.m
 functions/export/niftii/nii_tool.m
 functions/segment/apply_threshold_adc.m
 functions/registration/registerImagesBart.m
+functions/various/lipariColorMap.m
+functions/various/naviaColorMap.m
